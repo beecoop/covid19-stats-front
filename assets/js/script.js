@@ -20,7 +20,7 @@ const cc = {
 
 const rc = {
     antialias: true,
-    alpha: false
+    alpha: true
 };
 
 const sc = {

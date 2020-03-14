@@ -13,14 +13,56 @@
     </style>
     <link href="assets/css/reset.css" media="screen" rel="stylesheet" type="text/css">
     <link href="assets/css/slickQuiz.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="assets/css/quizCustom.css" media="screen" rel="stylesheet" type="text/css">
     <link href="assets/css/master.css" media="screen" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Teko&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- quiz buttons goes here -->
-<p><a href="#symptoms-quiz" rel="modal:open">إرشادات حول الأعراض</a></p>
-<p><a href="#prevention-quiz" rel="modal:open">إرشادات حول الوقاية</a></p>
+<nav>
+    <div class="top">
+        <img src="assets/imgs/logo.svg" alt="beecoop">
+    </div>
+    <div class="bottom">
+        <a href="javascript:;"><img src="assets/imgs/fb.svg" alt="facebook"></a>
+        <a href="javascript:;"><img src="assets/imgs/ig.svg" alt="instgram"></a>
+        <a href="javascript:;"><img src="assets/imgs/www.svg" alt="web"></a>
+    </div>
+</nav>
+
+<main>
+    <h1 class="header">دليل نتبعو بيه حالات الكورونا بالتوقيت الحقيقي</h1>
+    <small><span>و نكافحوه مع بعضنا</span><span> COVID-19 </span><span>لازمنا نرفعوا مستوى الوعي حول مرض</span></small>
+    <div class="stats">
+        <div id="deaths" class="stat">
+            <div class="stat-header">
+                <h2>عدد الوفيات</h2>
+                <img src="assets/imgs/deaths.svg" alt="deaths">
+            </div>
+            <h1 class="stat-value">0</h1>
+        </div>
+        <div id="recovered" class="stat">
+            <div class="stat-header">
+                <h2>عدد المتعافين</h2>
+                <img src="assets/imgs/recovered.svg" alt="recovered">
+            </div>
+            <h1 class="stat-value">100</h1>
+        </div>
+        <div id="cases" class="stat">
+            <div class="stat-header">
+                <h2>عدد الحالات</h2>
+                <img src="assets/imgs/cases.svg" alt="cases">
+            </div>
+            <h1 class="stat-value">120</h1>
+        </div>
+    </div>
+    <div class="quizes">
+        <a href="#symptoms-quiz" rel="modal:open">إرشادات حول الأعراض</a>
+        <a href="#prevention-quiz" rel="modal:open">إرشادات حول الوقاية</a>
+    </div>
+</main>
 
 <!-- quiz modals goes here -->
 <div id="symptoms-quiz" class="modal">
@@ -70,5 +112,6 @@
 <script src="assets/js/jquery-modal.min.js"></script>
 <script src="assets/js/slickQuiz.js"></script>
 <script src="assets/js/covid19Quiz.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>
