@@ -15,7 +15,6 @@
         var plugin = this,
             $element = $(element),
             _element = '#' + $element.attr('id'),
-
             defaults = {
                 checkAnswerText: 'Check My Answer!',
                 nextQuestionText: 'Next &raquo;',
@@ -755,7 +754,7 @@
         // move to next question without submitting
         function removeNextButton() {
             $('a.button.nextQuestion').hide();
-            $('input').on('change', function () {
+            $element.find('input').on('change', function () {
                 plugin.method.nextQuestion(this, {callback: plugin.config.animationCallbacks.nextQuestion});
                 $(this).addClass('animated fadeOutLeft');
             });
