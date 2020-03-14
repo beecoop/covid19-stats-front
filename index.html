@@ -3,13 +3,72 @@
     <meta charset="utf-8">
     <title>test</title>
     <style>
-			body { margin: 0; }
-			canvas { display: block; }
-    </style>
+        body {
+            margin: 0;
+        }
 
+        canvas {
+            display: block;
+        }
+    </style>
+    <link href="assets/css/reset.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="assets/css/slickQuiz.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="assets/css/master.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
 </head>
 <body>
+
+<!-- quiz buttons goes here -->
+<p><a href="#symptoms-quiz" rel="modal:open">إرشادات حول الأعراض</a></p>
+<p><a href="#prevention-quiz" rel="modal:open">إرشادات حول الوقاية</a></p>
+
+<!-- quiz modals goes here -->
+<div id="symptoms-quiz" class="modal">
+    <div id="SymptomsQuiz">
+        <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+        <div class="quizArea">
+            <div class="quizHeader">
+                <!-- where the quiz main copy goes -->
+
+                <a class="button startQuiz" href="#">Get Started!</a>
+            </div>
+
+            <!-- where the quiz gets built -->
+        </div>
+
+        <div class="quizResults">
+            <div class="quizResultsCopy">
+                <!-- where the quiz result copy goes -->
+            </div>
+            <h3 class="quizLevel"><span><!-- where the quiz ranking level goes --></span></h3>
+        </div>
+    </div>
+</div>
+<div id="prevention-quiz" class="modal">
+    <div id="PreventionQuiz">
+        <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+        <div class="quizArea">
+            <div class="quizHeader">
+                <!-- where the quiz main copy goes -->
+            </div>
+            <!-- where the quiz gets built -->
+        </div>
+
+        <div class="quizResults">
+            <div class="quizResultsCopy">
+                <!-- where the quiz result copy goes -->
+            </div>
+            <h3 class="quizLevel"><span><!-- where the quiz ranking level goes --></span></h3>
+        </div>
+    </div>
+</div>
 <script src="assets/js/three.min.js"></script>
 <script src="assets/js/script.js"></script>
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/jquery-modal.min.js"></script>
+<script src="assets/js/slickQuiz.js"></script>
+<script src="assets/js/covid19Quiz.js"></script>
 </body>
 </html>
