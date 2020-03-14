@@ -1,14 +1,20 @@
 
+// 50, 300
+// 20, 250
+//
+
+
+const degToRad = THREE.Math.degToRad;
 
 const cc = {
-    fov: 50,
+    fov: 90,
     aspectRatio: window.innerWidth / window.innerHeight,
     near: 0.1,
     far: 1000,
     p: {
         x: 0,
-        y: 300,
-        z: 400
+        y: 0,
+        z: 500
     },
 };
 
@@ -24,14 +30,20 @@ const sc = {
 };
 
 const gc = {
-    r: {
-        x: -0.5,
-        y: Math.PI + 1.35,
+    p: {
+        x: 0,
+        y: 0,
         z: 0
+    },
+    r: {
+        x: degToRad(-40),
+        y: degToRad(-100),
+        z: degToRad(0)
     }
 };
 
-const textureUrl = 'assets/textures/globe_2k.png';
+// const textureUrl = 'assets/textures/globe_2k.png';
+const textureUrl = 'assets/textures/water_8k.png';
 
 const shaders = {
     earth : {
@@ -102,49 +114,53 @@ class WebGLContext {
 }
 
 
-class Cube {
-    constructor() {
-        this.context = new WebGLContext();
-        this.build();
-    }
-    build() {
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        this.obj = new THREE.Mesh( geometry, material );
-
-        this.context.scene.add( this.obj );
-        this.context.camera.position.z = 5;
-    }
-    animate() {
-        this.obj.rotation.x += 0.01;
-        this.obj.rotation.y += 0.01;
-    }
-    draw() {
-        this.context.draw();
-    }
-    render() {
-        this.animate();
-        this.draw();
-        requestAnimationFrame( this.render.bind( this ) );
-    }
-
-}
-
-
 class Globe {
     constructor() {
         this.context = new WebGLContext();
         this.build();
+        // this.initEvents();
     }
     build() {
-        this.globe = new THREE.Group();
-        this.context.scene.add(this.globe);
-        this.createSphere();
 
         // Set position and look at
-        this.context.camera.position.set(cc.p.x, cc.p.y, cc.p.z);
+        this.context.camera.position.set( cc.p.x, cc.p.y, cc.p.z );
+        this.context.camera.zoom = 5;
+        this.context.camera.updateProjectionMatrix();
+
+        this.createGlobe();
+        // this.createAtmosphere();
+
+        this.globe.position.y = -300;
+        // this.atmosphere.position.y = 100;
+
+
     }
-    createSphere() {
+    initEvents() {
+        // TODO: finish it
+        this.mouseDown = false;
+        this.mouseDownPosition = {
+            x: 0,
+            y: 0,
+            z: 0
+        };
+        this.context.renderer.domElement.addEventListener( 'mousemove', (event) => {
+            if (!this.mouseDown)
+                return;
+
+            console.log(event.clientX);
+            console.log(event.clientY);
+        } );
+        this.context.renderer.domElement.addEventListener( 'mousedown', (event) => {
+            this.mouseDown = true;
+        } );
+        this.context.renderer.domElement.addEventListener( 'mouseup', (event) => {
+            this.mouseDown = false;
+        } );
+    }
+    createGlobe() {
+
+        this.globe = new THREE.Group();
+        this.context.scene.add(this.globe);
 
         let textureLoader = new THREE.TextureLoader();
         textureLoader.load(
@@ -175,28 +191,39 @@ class Globe {
             }
         );
 
+        // this.globe.position.set(gc.p.x, gc.p.y, gc.p.z);
         this.globe.rotation.set(gc.r.x, gc.r.y, gc.r.z);
 
     }
-    createSphere_old() {
+    createAtmosphere() {
 
-        // Create sphere geometry
-        const geometry = new THREE.SphereGeometry( sc.radius, sc.segments, sc.rings );
+        const geometry = new THREE.SphereGeometry( sc.radius, sc, sc.segments, sc.rings );
 
-        // Prepare shaders
-        // let shader = shaders.earth;
-        // let uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+        const shader = shaders.atmosphere;
+        const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
-        // Create Sphere material
-        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        const material = new THREE.ShaderMaterial( {
+            uniforms: uniforms,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true
+        } );
 
-        // Create mesh with sphere geometry
-        const mesh = new THREE.Mesh( geometry, material );
-        this.globe.add(mesh);
+        this.atmosphere = new THREE.Mesh( geometry, material );
+        this.atmosphere.scale.set( 1.4, 1.4, 1.4 );
+        this.globe.add( this.atmosphere );
+
     }
     animate() {
-        this.globe.rotation.x += 0.01;
-        this.globe.rotation.y += 0.01;
+        /*this.globe.rotation.set(
+            this.mouseDownPosition.x,
+            this.mouseDownPosition.y,
+            this.mouseDownPosition.z
+        );*/
+        // this.globe.rotation.x += 0.01;
+        this.globe.rotation.y += degToRad(1);
     }
     draw() {
         this.context.draw();
