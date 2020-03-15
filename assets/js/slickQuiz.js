@@ -755,6 +755,7 @@
         function removeNextButton() {
             $('a.button.nextQuestion').hide();
             $element.find('input').on('change', function () {
+                plugin.method.checkAnswer(this, {callback: plugin.config.animationCallbacks.checkAnswer});
                 plugin.method.nextQuestion(this, {callback: plugin.config.animationCallbacks.nextQuestion});
                 $(this).addClass('animated fadeOutLeft');
             });
