@@ -149,6 +149,13 @@ section.info .advices .body ul li {
     margin-top: 28px;
 }
 
+section.info .socials {
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
 main {
     font-family: 'Tajawal', sans-serif;
     color: #fff;
@@ -406,6 +413,10 @@ canvas {
         max-height: none;
         border-radius: 0;
         padding-top: 80px;
+    }
+
+    section.info .socials {
+        display: flex;
     }
 
     main {
