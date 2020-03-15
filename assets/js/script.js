@@ -1,6 +1,9 @@
 
 $(function () {
 
+    // quiz logic
+    // ========================
+
     $.modal.defaults.fadeDuration = 500;
     $.modal.defaults.fadeDelay = 0;
 
@@ -128,4 +131,11 @@ $(function () {
         }
     });
 
+
+    // info popup logic
+    // ========================
+
+    $('#info-btn').on('click', function () {
+        $(this).toggleClass('opened');
+    });
 });
