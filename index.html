@@ -1,6 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test</title>
     <style>
         body {
@@ -11,13 +12,13 @@
             display: block;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css?family=Teko&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <link href="assets/css/reset.css" media="screen" rel="stylesheet" type="text/css">
     <link href="assets/css/slickQuiz.css" media="screen" rel="stylesheet" type="text/css">
     <link href="assets/css/quizCustom.css" media="screen" rel="stylesheet" type="text/css">
     <link href="assets/css/master.css" media="screen" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
-    <link href="https://fonts.googleapis.com/css?family=Tajawal:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Teko&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -31,6 +32,15 @@
         <a href="javascript:;"><img src="assets/imgs/www.svg" alt="web"></a>
     </div>
 </nav>
+
+<section class="mobile">
+    <img class="brand" src="assets/imgs/logo.svg" alt="beecoop">
+    <a class="menu-btn" href="javascript:;"><img src="assets/imgs/menu-btn.svg" alt="menu"></a>
+</section>
+
+<section class="menu">
+
+</section>
 
 <main>
     <h1 class="header">دليل نتبعو بيه حالات الكورونا بالتوقيت الحقيقي</h1>
@@ -62,22 +72,17 @@
         </div>
     </div>
     <div class="quizes">
-        <a href="#symptoms-quiz" rel="modal:open">إرشادات حول الأعراض</a>
         <a href="#prevention-quiz" rel="modal:open">إرشادات حول الوقاية</a>
+        <a href="#symptoms-quiz" rel="modal:open">إرشادات حول الأعراض</a>
     </div>
 </main>
 
 <!-- quiz modals goes here -->
-<div id="symptoms-quiz" class="modal">
+<div id="symptoms-quiz" class="modal quiz">
     <div id="SymptomsQuiz">
-        <h1 class="quizName"><!-- where the quiz name goes --></h1>
-
+        <h1 class="quizName"></h1>
         <div class="quizArea">
-            <div class="quizHeader">
-                <!-- where the quiz main copy goes -->
-
-                <a class="button startQuiz" href="#">Get Started!</a>
-            </div>
+            <div class="quizHeader"></div>
 
             <!-- where the quiz gets built -->
         </div>
@@ -90,7 +95,7 @@
         </div>
     </div>
 </div>
-<div id="prevention-quiz" class="modal">
+<div id="prevention-quiz" class="modal quiz">
     <div id="PreventionQuiz">
         <h1 class="quizName"><!-- where the quiz name goes --></h1>
 

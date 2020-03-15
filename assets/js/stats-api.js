@@ -14,7 +14,7 @@ $(document).ready(function () {
             let $recovered_output = $('#recovered .stat-value');
             let $deaths_output = $('#deaths .stat-value');
 
-            let $loader = $("main .stats .loader");
+            let $loader = $("main .stat .loader");
 
             // set stats data
             $cases_output.html(data.active);

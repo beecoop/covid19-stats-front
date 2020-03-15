@@ -52,6 +52,7 @@ main {
 main .header {
     font-weight: bold;
     font-size: 34px;
+    margin: 0;
 }
 
 main small {
@@ -74,6 +75,13 @@ main .stat {
     -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.16);
     -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.16);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.16);
+
+    background-color: rgba(49, 49, 49, 0.1);
+    transition: background-color 500ms;
+}
+
+main .stat:hover {
+    background-color: rgba(49, 49, 49, 0.2);
 }
 
 main .stat:not(:first-child) {
@@ -85,6 +93,7 @@ main .stat-header {
     justify-content: center;
     position: relative;
     padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 main .stat-header:after {
@@ -125,7 +134,7 @@ main .quizes a {
     color: #069BF3;
     background-color: #fff;
     border-radius: 50px;
-    padding: 34px 70px;
+    padding: 34px 76px;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
@@ -162,5 +171,167 @@ canvas {
     position: absolute;
     top: 0;
     z-index: -1;
+}
+
+
+/* mobile rules */
+
+section.mobile {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section.mobile .brand {
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 34px;
+}
+
+section.mobile .menu-btn {
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+
+/* media rules */
+
+@media only screen and (max-width: 1366px) {
+
+    main {
+        height: 100%;
+    }
+
+    main .header {
+        font-size: 30px;
+    }
+
+    main small {
+        display: none;
+    }
+
+    main .stats {
+        flex-direction: column-reverse;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    main .stat:not(:first-child) {
+        margin: 0;
+    }
+
+    main .stat:not(:last-child) {
+        margin-top: 32px;
+    }
+
+    main .stat {
+        width: 256px;
+        padding: 10px 0;
+    }
+
+    main .stat .loader {
+        width: 54px;
+    }
+
+    main .stat-header h2 {
+        font-size: 18px;
+        margin-right: 12px;
+    }
+
+    main .stat-header img {
+        height: 16px;
+    }
+
+    main .stat h1 {
+        font-size: 54px;
+    }
+
+    main .quizes {
+        margin-top: 38px;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
+
+    main .quizes a:first-child {
+        margin: 0;
+    }
+
+    main .quizes a:last-child {
+        margin-bottom: 30px;
+    }
+
+    main .quizes a {
+        font-size: 18px;
+        padding: 32px 64px;
+    }
+
+    canvas {
+        display: none;
+    }
+
+}
+
+@media only screen and (max-width: 576px) {
+
+    nav {
+        display: none;
+    }
+
+    section.mobile {
+        display: flex;
+    }
+
+    main {
+        margin: 0 40px;
+    }
+
+    main .header {
+        font-size: 20px;
+    }
+
+    main .stat:not(:last-child) {
+        margin-top: 20px;
+    }
+
+    main .stat {
+        width: 178px;
+    }
+
+    main .stat .loader {
+        width: 38px;
+    }
+
+    main .stat-header h2 {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    main .stat-header img {
+        height: 12px;
+    }
+
+    main .stat h1 {
+        font-size: 38px;
+    }
+
+    main .quizes {
+        margin-top: 26px;
+    }
+
+    main .quizes a {
+        font-size: 14px;
+        padding: 22px 48px;
+    }
+
+    main .quizes a:first-child {
+        margin-bottom: 26px;
+    }
+
+
 }
 

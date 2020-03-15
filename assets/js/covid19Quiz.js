@@ -1,5 +1,16 @@
-// Symptoms Quiz
+
 $(function () {
+
+    $.modal.defaults.fadeDuration = 500;
+    $.modal.defaults.fadeDelay = 0;
+
+    // Symptoms Quiz
+
+    $('#symptoms-quiz').on($.modal.OPEN, function () {
+        $('body').removeClass('blurred').addClass('blurred');
+    }).on($.modal.CLOSE, function () {
+        $('body').removeClass('blurred');
+    });
     $('#SymptomsQuiz').slickQuiz({
         skipStartButton: true,
         perQuestionResponseMessaging: false,
@@ -10,13 +21,13 @@ $(function () {
         json: {
             "info": {
                 "name": "إرشادات حول الأعراض",
-                "main": "<p><small>COVID-19</small>جاوب معانا عالأسلة هاذم كانك شاك انو عندك الـ </p>",
+                "main": "<small><span>COVID-19</span>جاوب معانا عالأسلة هاذم كانك شاك انو عندك الـ </small>",
                 "results": "حسب الأجابات متعك :",
                 "level1": "حط روحك في الحجر الذاتي، ابعد على الناس إلي قرابلك و إتصل بالرقم الأخضر.",
                 "level2": "حتى لو كان ماعندكش الأعراض الكل، إبعد على الناس الي تعز عليك حتى تتأكد أنك لباس و أكيد اتصل بالرقم الأخضر.",
                 "level3": "حتى لو كان ماعندكش الأعراض الكل، إبعد على الناس الي تعز عليك حتى تتأكد أنك لباس و أكيد اتصل بالرقم الأخضر.",
                 "level4": "حتى لو كان ماعندكش الأعراض الكل، إبعد على الناس الي تعز عليك حتى تتأكد أنك لباس و أكيد اتصل بالرقم الأخضر.",
-                "level5": "تلهى بصحتك و إتصل بالرقم الأخضر كان حسيت عندك الأعراض هذه."
+                "level5": "تلهى بصحتك و إتصل بالرقم الأخضر كان حسيت عندك الأعراض هذه.<p class='green-num'>80 10 19 19</p>"
             },
             "questions": [
                 {
@@ -50,10 +61,15 @@ $(function () {
             ]
         },
     });
-});
 
-// Prevention Quiz
-$(function () {
+
+    // Prevention Quiz
+
+    $('#prevention-quiz').on($.modal.OPEN, function () {
+        $('body').removeClass('blurred').addClass('blurred');
+    }).on($.modal.CLOSE, function () {
+        $('body').removeClass('blurred');
+    });
     $('#PreventionQuiz').slickQuiz({
         skipStartButton: true,
         perQuestionResponseMessaging: false,
@@ -111,4 +127,5 @@ $(function () {
             ]
         }
     });
+
 });
