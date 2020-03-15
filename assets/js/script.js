@@ -18,14 +18,14 @@ $(function () {
         skipStartButton: true,
         perQuestionResponseMessaging: false,
         preventUnanswered: true,
-        preventUnansweredText: 'أخطار اجابة يعيشك',
+        preventUnansweredText: 'أخطار إجابة يعيشك',
         questionCountText: '%current/%total',
         questionTemplateText: '%text',
         json: {
             "info": {
                 "name": "إرشادات حول الأعراض",
-                "main": "<small><span>COVID-19</span>جاوب معانا عالأسلة هاذم كانك شاك انو عندك الـ </small>",
-                "results": "حسب الأجابات متعك :",
+                "main": "<small><span>COVID-19</span>جاوب معانا عالأسئلة هاذم كانك شاك انو عندك الـ </small>",
+                "results": "حسب الإجابات متعك :",
                 "level1": "حط روحك في الحجر الذاتي، ابعد على الناس إلي قرابلك و إتصل بالرقم الأخضر.",
                 "level2": "حتى لو كان ماعندكش الأعراض الكل، إبعد على الناس الي تعز عليك حتى تتأكد أنك لباس و أكيد اتصل بالرقم الأخضر.",
                 "level3": "حتى لو كان ماعندكش الأعراض الكل، إبعد على الناس الي تعز عليك حتى تتأكد أنك لباس و أكيد اتصل بالرقم الأخضر.",
@@ -77,19 +77,19 @@ $(function () {
         skipStartButton: true,
         perQuestionResponseMessaging: false,
         preventUnanswered: true,
-        preventUnansweredText: 'أخطار اجابة يعيشك',
+        preventUnansweredText: 'أخطار إجابة يعيشك',
         questionCountText: '%current/%total',
         questionTemplateText: '%text',
         json: {
             "info": {
                 "name": "إرشادات حول الوقاية",
                 "main": "<p>جاوب معانا عالأسلة هاذم باش تتعرف على حالتك</p>",
-                "results": "حسب الأجابات متعك :",
+                "results": "حسب الإجابات متعك :",
                 "level1": "هايل ياسر ، بالتزامك الإجراءات ، أنت تنقذ الناس من حولك.",
                 "level2": "ناسي بعض المبادئ التوجيهية . الوقاية هي أهم شيء باش نحميو الناس إلي العزاز علينا.",
                 "level3": "ناسي بعض المبادئ التوجيهية . الوقاية هي أهم شيء باش نحميو الناس إلي العزاز علينا.",
                 "level4": "ناسي بعض المبادئ التوجيهية . الوقاية هي أهم شيء باش نحميو الناس إلي العزاز علينا.",
-                "level5": " ابدأ في ممارسة المبادئ التوجيهية لمنظمة الصحة العالمية و وزارة الصحة."
+                "level5": " أبدا في ممارسة المبادئ التوجيهية لمنظمة الصحة العالمية و وزارة الصحة."
             },
             "questions": [
                 {
