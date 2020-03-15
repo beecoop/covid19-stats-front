@@ -23,27 +23,68 @@
 <body>
 
 <nav>
-    <div class="top">
-        <img src="assets/imgs/logo.svg" alt="beecoop">
+    <div class="desktop">
+        <div class="top">
+            <img src="assets/imgs/logo.svg" alt="beecoop">
+        </div>
+        <div class="bottom">
+            <a href="javascript:;"><img src="assets/imgs/fb.svg" alt="facebook"></a>
+            <a href="javascript:;"><img src="assets/imgs/ig.svg" alt="instgram"></a>
+            <a href="javascript:;"><img src="assets/imgs/www.svg" alt="web"></a>
+        </div>
     </div>
-    <div class="bottom">
-        <a href="javascript:;"><img src="assets/imgs/fb.svg" alt="facebook"></a>
-        <a href="javascript:;"><img src="assets/imgs/ig.svg" alt="instgram"></a>
-        <a href="javascript:;"><img src="assets/imgs/www.svg" alt="web"></a>
+    <div class="mobile">
+        <img class="brand" src="assets/imgs/logo.svg" alt="beecoop">
     </div>
 </nav>
 
-<section class="mobile">
-    <img class="brand" src="assets/imgs/logo.svg" alt="beecoop">
-    <a class="menu-btn" href="javascript:;"><img src="assets/imgs/menu-btn.svg" alt="menu"></a>
+<section id="info-btn" class="info-btn">
+    <a class="btn-info-open" href="javascript:;"><img src="assets/imgs/info-open.svg" alt="info-open"></a>
+    <a class="btn-info-close" href="javascript:;"><img src="assets/imgs/info-close.svg" alt="info-close"></a>
 </section>
 
-<section class="menu">
-
+<section id="info-popup" class="info">
+    <div class="block green numbers">
+        <div class="header">نوامر ممكن تستحقهم</div>
+        <div class="body">
+            +216 71 284 547 &bull; 190 &bull; <span>80 10 19 19</span>
+        </div>
+    </div>
+    <div class="block blue advices">
+        <div class="header">نصائح مهمة</div>
+        <div class="body">
+            <ul>
+                <li>
+                    الفيروس يخوّف في العالم الكل، الحل الأمثل لمجابهة الأوبئة هو الحذر والإحساس بالمسؤولية
+                </li>
+                <li>
+                    الفيروس يهدد حياة الناس اللي عندهم مشاكل صحية، من مسؤوليتنا الإنسانية أننا ما نعدوش أقاربنا وأصحابنا والناس اللي عندهم أمراض مزمنة أو مناعة ضعيفة
+                </li>
+                <li>
+                    الفيروس يحط الجسم في حالة ضعف تخلي القلب والكلاوي والكبدة وغيرهم يتعرضوا لمضاعفات خطيرة تنجم تؤدي للوفاة
+                </li>
+                <li>
+                    كل إنسان يشك في روحه تعرض للعدوى، يلزمه يشد الدار ويكلم المصالح الصحية تعمل معاه متابعة يومية
+                </li>
+                <li>
+                    الفيروس يخوّف في العالم الكل، الحل الأمثل لمجابهة الأوبئة هو الحذر والإحساس بالمسؤولية
+                </li>
+                <li>
+                    الفيروس يهدد حياة الناس اللي عندهم مشاكل صحية، من مسؤوليتنا الإنسانية أننا ما نعدوش أقاربنا وأصحابنا والناس اللي عندهم أمراض مزمنة أو مناعة ضعيفة
+                </li>
+                <li>
+                    الفيروس يحط الجسم في حالة ضعف تخلي القلب والكلاوي والكبدة وغيرهم يتعرضوا لمضاعفات خطيرة تنجم تؤدي للوفاة
+                </li>
+                <li>
+                    كل إنسان يشك في روحه تعرض للعدوى، يلزمه يشد الدار ويكلم المصالح الصحية تعمل معاه متابعة يومية
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
 
 <main>
-    <h1 class="header">دليل نتبعو بيه حالات الكورونا بالتوقيت الحقيقي</h1>
+    <h1 class="header">دليل نتبعو بيه حالات الكورونا بالتوقيت الحالى</h1>
     <small><span>و نكافحوه مع بعضنا</span><span> COVID-19 </span><span>لازمنا نرفعوا مستوى الوعي حول مرض</span></small>
     <div class="stats">
         <div id="deaths" class="stat">
@@ -115,12 +156,12 @@
     </div>
 </div>
 <script src="assets/js/three.min.js"></script>
-<script src="assets/js/script.js"></script>
 <script src="assets/js/jquery.js"></script>
 <script src="assets/js/jquery-modal.min.js"></script>
 <script src="assets/js/slickQuiz.js"></script>
 <script src="assets/js/covid19Quiz.js"></script>
 <script src="assets/js/script.js"></script>
+<!--<script src="assets/js/globe.js"></script>-->
 <script src="assets/js/stats-api.js"></script>
 </body>
 </html>

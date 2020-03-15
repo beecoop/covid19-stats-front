@@ -8,10 +8,10 @@ body {
     overflow: hidden;
 }
 
-nav {
+nav .desktop {
     width: 90px;
     background-color: rgba(49, 49, 49, 0.2);
-    border-right: 1px solid #fff;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
     height: 100%;
     position: absolute;
     display: flex;
@@ -19,23 +19,134 @@ nav {
     justify-content: space-between;
 }
 
-nav .top,
-nav .bottom {
+nav .desktop .top,
+nav .desktop .bottom {
     text-align: center;
 }
 
-nav .top {
+nav .desktop .top {
     padding-top: 22px;
 }
 
-nav .bottom {
+nav .desktop .bottom {
     padding-bottom: 22px;
     display: flex;
     flex-direction: column;
 }
 
-nav .bottom a:not(:first-child) {
+nav .desktop .bottom a:not(:first-child) {
     margin-top: 20px;
+}
+
+nav .mobile {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .mobile .brand {
+    margin-left: 20px;
+    margin-top: 20px;
+    width: 34px;
+}
+
+section.info-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0 46px 32px 0;
+}
+
+section.info-btn > a {
+    display: none;
+}
+
+section.info-btn.opened .btn-info-close {
+    display: block;
+}
+
+section.info-btn:not(.opened) .btn-info-open {
+    display: block;
+}
+
+section.info-btn.opened + section.info {
+    display: block;
+}
+
+section.info {
+    position: absolute;
+    display: none;
+    bottom: 170px;
+    right: 46px;
+    width: 368px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    z-index: 1;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-height: 68vh;
+    overflow-y: auto;
+}
+
+section.info .block {
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    box-shadow: 0 0 2px 0 gray;
+    border-radius: 6px;
+    border-top: 6px solid #B9B9B9;
+    padding: 22px 10px;
+    margin-bottom: 34px;
+}
+
+section.info .block.green {
+    border-top: 6px solid #41E090;
+}
+
+section.info .block.blue {
+    border-top: 6px solid #059bF2;
+}
+
+section.info .block .header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #303030;
+    margin-bottom: 18px;
+}
+
+section.info .numbers .body {
+    direction: ltr;
+    text-align: right;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+section.info .numbers .body span {
+   color: #41E090;
+}
+
+section.info .advices .header {
+    color: #059bF2;
+}
+
+section.info .advices .body {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+section.info .advices .body ul {
+    list-style: disc;
+    margin-right: 16px;
+}
+
+section.info .advices .body ul li {
+    margin-top: 28px;
 }
 
 main {
@@ -174,32 +285,22 @@ canvas {
 }
 
 
-/* mobile rules */
-
-section.mobile {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-}
-
-section.mobile .brand {
-    margin-left: 20px;
-    margin-top: 20px;
-    width: 34px;
-}
-
-section.mobile .menu-btn {
-    margin-right: 20px;
-    margin-top: 20px;
-}
-
-
 /* media rules */
 
 @media only screen and (max-width: 1366px) {
+
+    section.info-btn {
+        padding: 0 12px 32px 0;
+    }
+
+    section.info-btn > a img {
+        width: 78px;
+    }
+
+    section.info {
+        bottom: 120px;
+        right: 16px;
+    }
 
     main {
         height: 100%;
@@ -278,12 +379,33 @@ section.mobile .menu-btn {
 
 @media only screen and (max-width: 576px) {
 
-    nav {
+    nav .desktop {
         display: none;
     }
 
-    section.mobile {
-        display: flex;
+    nav .mobile {
+        display: block;
+    }
+
+    section.info-btn {
+        padding: 20px 16px 0 0;
+        z-index: 2;
+        top: 0;
+        bottom: unset;
+    }
+
+    section.info-btn > a img {
+        width: 38px;
+    }
+
+    section.info {
+        top: 0;
+        right: 0;
+        width: calc(100% - 20px - 20px);
+        height: calc(100% - 20px - 80px);
+        max-height: none;
+        border-radius: 0;
+        padding-top: 80px;
     }
 
     main {
