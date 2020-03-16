@@ -15423,6 +15423,8 @@ var shaders = {
     fragmentShader: ['varying vec3 vNormal;', 'void main() {', 'float intensity = pow( 0.8 - dot( vNormal, vec3( 0, 0, 1.0 ) ), 12.0 );', 'gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;', '}'].join('\n')
   }
 };
+var mapSeaColor = 0x578DD2;
+var mapGroundColor = 0xCED0D2;
 
 var WebGLContext = /*#__PURE__*/function () {
   function WebGLContext() {
@@ -15516,8 +15518,8 @@ var Globe = /*#__PURE__*/function () {
         var shader = shaders.earth;
         var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
         uniforms.texture.value = texture;
-        uniforms.sea.value = new THREE.Color(0x578DD2);
-        uniforms.ground.value = new THREE.Color(0xACA898); // Map texture to the material
+        uniforms.sea.value = new THREE.Color(mapSeaColor);
+        uniforms.ground.value = new THREE.Color(mapGroundColor); // Map texture to the material
 
         var material = new THREE.ShaderMaterial({
           uniforms: uniforms,

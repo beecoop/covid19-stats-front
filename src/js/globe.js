@@ -196,6 +196,9 @@ const shaders = {
     }
 };
 
+const mapSeaColor = 0x578DD2;
+const mapGroundColor = 0xCED0D2;
+
 
 class WebGLContext {
     constructor() {
@@ -269,8 +272,8 @@ class Globe {
                 const shader = shaders.earth;
                 const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
                 uniforms.texture.value = texture;
-                uniforms.sea.value = new THREE.Color(0x578DD2);
-                uniforms.ground.value = new THREE.Color(0xACA898);
+                uniforms.sea.value = new THREE.Color(mapSeaColor);
+                uniforms.ground.value = new THREE.Color(mapGroundColor);
 
                 // Map texture to the material
                 const material = new THREE.ShaderMaterial( {
