@@ -143,8 +143,8 @@ const shaders = {
             '} else {',
             'diffuse = diffuse * sea;',
             '}',
-            'float intensity = 1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
-            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 8.0 );',
+            'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
+            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity * 0.6, 3.0 );',
             'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );',
             '}'
         ].join('\n')
@@ -172,7 +172,7 @@ const shaders = {
             'discard;',
             '}',
             'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
-            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );',
+            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity * 0.6, 3.0 );',
             'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );',
             '}'
         ].join('\n')
