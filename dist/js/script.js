@@ -15385,9 +15385,8 @@ var animationsCurrent = {
   gc: gc // cc: Object.assign(cc, animationsTargets["1"].cc),
   // gc: Object.assign(gc, animationsTargets["1"].gc)
 
-}; // const textureUrl = 'assets/textures/globe_2k.png';
-
-var textureUrl = '../assets/textures/water_8k.png';
+};
+var textureUrl = '../assets/textures/water_8k.jpg';
 var textureMaskUrl = '../assets/textures/tunis.jpg';
 var shaders = {
   earth: {
@@ -15406,7 +15405,7 @@ var shaders = {
       }
     },
     vertexShader: ['varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );', 'vNormal = normalize( normalMatrix * normal );', 'vUv = uv;', '}'].join('\n'),
-    fragmentShader: ['uniform sampler2D texture;', 'uniform vec3 sea;', 'uniform vec3 ground;', 'varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'vec3 diffuse = texture2D( texture, vUv ).xyz;', 'if (diffuse.r < 0.5 && diffuse.g < 0.5 && diffuse.b < 0.5) {', 'float average = (diffuse.r + diffuse.g + diffuse.b) / 3.0;', 'diffuse = (1.0 - average) * ground;', '} else {', 'diffuse = diffuse * sea;', '}', 'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );', 'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );', 'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );', '}'].join('\n')
+    fragmentShader: ['uniform sampler2D texture;', 'uniform vec3 sea;', 'uniform vec3 ground;', 'varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'vec3 diffuse = texture2D( texture, vUv ).xyz;', 'if (diffuse.r < 0.5 && diffuse.g < 0.5 && diffuse.b < 0.5) {', 'float average = (diffuse.r + diffuse.g + diffuse.b) / 3.0;', 'diffuse = (1.0 - average) * ground;', '} else {', 'diffuse = diffuse * sea;', '}', 'float intensity = 1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );', 'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 8.0 );', 'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );', '}'].join('\n')
   },
   mask: {
     uniforms: {
