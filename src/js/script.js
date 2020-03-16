@@ -10,6 +10,8 @@ $(function () {
     // Content fade in animation
     // ========================
 
+    const mWidth = 576;
+
     const mainAnimDuration = 1.5;
     const animEase = Sine.easeInOut;
 
@@ -23,6 +25,10 @@ $(function () {
         TweenMax.to( $main, mainAnimDuration, { y: 0, ease: animEase } );
 
     };
+
+    if (window.innerWidth <= mWidth) {
+        fadeInContentAnimation();
+    }
 
     const $nav = $('nav');
     const $info_btn = $('section.info-btn');

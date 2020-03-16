@@ -15106,6 +15106,7 @@ var fadeInContentAnimation = function fadeInContentAnimation() {};
 $(function () {
   // Content fade in animation
   // ========================
+  var mWidth = 576;
   var mainAnimDuration = 1.5;
   var animEase = Sine.easeInOut;
 
@@ -15121,6 +15122,10 @@ $(function () {
       ease: animEase
     });
   };
+
+  if (window.innerWidth <= mWidth) {
+    fadeInContentAnimation();
+  }
 
   var $nav = $('nav');
   var $info_btn = $('section.info-btn');
