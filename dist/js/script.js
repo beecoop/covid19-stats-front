@@ -15102,8 +15102,44 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 "use strict";
 
 $(function () {
-  // quiz logic
+  // Content fade in animation
   // ========================
+  var mtWidth = 1366;
+  var globeAnimDuration = 0;
+  var mainAnimDuration = 1.5;
+  var animEase = Sine.easeInOut;
+
+  if (window.innerWidth > mtWidth) {
+    globeAnimDuration = 4.5;
+    mainAnimDuration = 1.5;
+  } // show main content after the globe animations
+
+
+  var $main = $('main');
+  var $nav = $('nav');
+  var $info_btn = $('section.info-btn');
+  TweenMax.to($main, mainAnimDuration, {
+    opacity: 1,
+    ease: animEase,
+    delay: globeAnimDuration
+  });
+  TweenMax.to($main, mainAnimDuration, {
+    y: 0,
+    ease: animEase,
+    delay: globeAnimDuration
+  });
+  TweenMax.to($nav, mainAnimDuration, {
+    opacity: 1,
+    ease: animEase,
+    delay: 0
+  });
+  TweenMax.to($info_btn, mainAnimDuration, {
+    opacity: 1,
+    ease: animEase,
+    delay: 0
+  }); // quiz logic
+  // ========================
+
   $.modal.defaults.fadeDuration = 500;
   $.modal.defaults.fadeDelay = 0; // Symptoms Quiz
 
