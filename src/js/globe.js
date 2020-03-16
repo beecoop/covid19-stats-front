@@ -2,6 +2,14 @@
 
 const degToRad = THREE.Math.degToRad;
 
+const ad = {
+    delay: 2,
+    first: 2,
+    second: 1.5
+};
+
+const mtWidth = 1366;
+
 const cc = {
     fov: 90,
     aspectRatio: window.innerWidth / window.innerHeight,
@@ -61,7 +69,7 @@ const animationsTargets = {
             },
             r: {
                 x: degToRad(20),
-                y: 0,
+                y: degToRad(-25),
                 z: 0
             }
         }
@@ -106,9 +114,45 @@ let animationsCurrent = {
 
 // const textureUrl = 'assets/textures/globe_2k.png';
 const textureUrl = '../assets/textures/water_8k.png';
+const textureMaskUrl = '../assets/textures/tunis.jpg';
 
 const shaders = {
     earth : {
+        uniforms: {
+            'texture': { type: 't', value: null },
+            'sea': { type: 'vec3', value: []},
+            'ground': { type: 'vec3', value: []}
+        },
+        vertexShader: [
+            'varying vec3 vNormal;',
+            'varying vec2 vUv;',
+            'void main() {',
+            'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+            'vNormal = normalize( normalMatrix * normal );',
+            'vUv = uv;',
+            '}'
+        ].join('\n'),
+        fragmentShader: [
+            'uniform sampler2D texture;',
+            'uniform vec3 sea;',
+            'uniform vec3 ground;',
+            'varying vec3 vNormal;',
+            'varying vec2 vUv;',
+            'void main() {',
+            'vec3 diffuse = texture2D( texture, vUv ).xyz;',
+            'if (diffuse.r < 0.5 && diffuse.g < 0.5 && diffuse.b < 0.5) {',
+            'float average = (diffuse.r + diffuse.g + diffuse.b) / 3.0;',
+            'diffuse = (1.0 - average) * ground;',
+            '} else {',
+            'diffuse = diffuse * sea;',
+            '}',
+            'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
+            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );',
+            'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );',
+            '}'
+        ].join('\n')
+    },
+    mask : {
         uniforms: {
             'texture': { type: 't', value: null }
         },
@@ -127,8 +171,11 @@ const shaders = {
             'varying vec2 vUv;',
             'void main() {',
             'vec3 diffuse = texture2D( texture, vUv ).xyz;',
+            'if (diffuse.r > 0.5 && diffuse.g > 0.5 && diffuse.b > 0.5) {',
+            'discard;',
+            '}',
             'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );',
-            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 3.0 );',
+            'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );',
             'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );',
             '}'
         ].join('\n')
@@ -157,6 +204,7 @@ class WebGLContext {
     constructor() {
         this.initScene();
         this.initCamera();
+        // this.initLighting();
         this.initRenderer();
     }
     initScene() {
@@ -165,10 +213,21 @@ class WebGLContext {
     initCamera() {
         this.camera = new THREE.PerspectiveCamera( cc.fov, cc.aspectRatio , cc.near, cc.far );
     }
+    initLighting() {
+        const light = new THREE.DirectionalLight( 0xffffff );
+        light.position.set( 0, 1, 1 ).normalize();
+        this.scene.add(light);
+    }
     initRenderer() {
         this.renderer = new THREE.WebGLRenderer( { antialias: rc.antialias, alpha: rc.alpha } );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( this.renderer.domElement );
+    }
+    onWindowResize() {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.draw();
     }
     draw() {
         this.renderer.render( this.scene, this.camera );
@@ -185,46 +244,6 @@ class Globe {
         // this.initEvents();
         this.test = 0;
     }
-    testing() {
-        cc.p = {
-            x: 0,
-            y: 0,
-            z: 400
-        };
-        gc.p = {
-            x: 0,
-            y: 0,
-            z: 0
-        };
-        gc.r = {
-            x: degToRad(20),
-            y: 0,
-            z: 0
-        };
-    }
-    testing_1() {
-        cc.p = {
-            x: 0,
-            y: 0,
-            z: 500
-        };
-        cc.r = {
-            x: degToRad(-4),
-            y: 0,
-            z: 0
-        };
-        cc.zoom = 8;
-        gc.p = {
-            x: 0,
-            y: -320,
-            z: 0
-        };
-        gc.r = {
-            x: degToRad(-45),
-            y: degToRad(-100),
-            z: degToRad(0)
-        };
-    }
     build() {
 
         // Set position and look at
@@ -233,43 +252,17 @@ class Globe {
         this.context.camera.zoom = cc.zoom;
         this.context.camera.updateProjectionMatrix();
 
-
         this.createGlobe();
         // this.createAtmosphere();
 
-        // this.globe.position.y = 200;
-        // this.atmosphere.position.y = 200;
-
-
-    }
-    initEvents() {
-        // TODO: finish it
-        this.mouseDown = false;
-        this.mouseDownPosition = {
-            x: 0,
-            y: 0,
-            z: 0
-        };
-        this.context.renderer.domElement.addEventListener( 'mousemove', (event) => {
-            if (!this.mouseDown)
-                return;
-
-            console.log(event.clientX);
-            console.log(event.clientY);
-        } );
-        this.context.renderer.domElement.addEventListener( 'mousedown', (event) => {
-            this.mouseDown = true;
-        } );
-        this.context.renderer.domElement.addEventListener( 'mouseup', (event) => {
-            this.mouseDown = false;
-        } );
     }
     createGlobe() {
 
         this.globe = new THREE.Group();
         this.context.scene.add(this.globe);
 
-        let textureLoader = new THREE.TextureLoader();
+        // Load map texture
+        const textureLoader = new THREE.TextureLoader();
         textureLoader.load(
             textureUrl,
             ( texture ) => {
@@ -278,8 +271,10 @@ class Globe {
 
                 // Prepare shaders
                 const shader = shaders.earth;
-                let uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+                const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
                 uniforms.texture.value = texture;
+                uniforms.sea.value = new THREE.Color(0x578DD2);
+                uniforms.ground.value = new THREE.Color(0xACA898);
 
                 // Map texture to the material
                 const material = new THREE.ShaderMaterial( {
@@ -291,15 +286,43 @@ class Globe {
                 // Create mesh with sphere geometry
                 const mesh = new THREE.Mesh( geometry, material );
                 this.globe.add(mesh);
+
+
+                // Load map mask texture
+                const textureMaskLoader = new THREE.TextureLoader();
+                textureMaskLoader.load(
+                    textureMaskUrl,
+                    ( texture ) => {
+                        // Prepare shaders
+                        const shader = shaders.mask;
+                        const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+                        uniforms.texture.value = texture;
+
+                        // Map texture to the material
+                        const material = new THREE.ShaderMaterial( {
+                            uniforms: uniforms,
+                            vertexShader: shader.vertexShader,
+                            fragmentShader: shader.fragmentShader
+                        } );
+
+                        // Create mesh with sphere geometry
+                        const mesh = new THREE.Mesh( geometry, material );
+                        const scale = 1;
+                        mesh.scale.set(scale, scale, scale);
+                        this.globe.add(mesh);
+                    },
+                    undefined,
+                    ( err ) => {
+                        console.error(err);
+                    }
+                );
+
             },
             undefined,
             ( err ) => {
                 console.error(err);
             }
         );
-
-        this.globe.position.set(gc.p.x, gc.p.y, gc.p.z);
-        this.globe.rotation.set(gc.r.x, gc.r.y, gc.r.z);
 
     }
     createAtmosphere() {
@@ -325,74 +348,72 @@ class Globe {
     }
     initAnimations() {
 
-        let ease = Power2.out;
-        ease = Sine.easeIn;
+        const ease = Sine.easeIn;
+        this.animCompleted = false;
 
-        this.timeline = new TimelineMax();
+        this.timeline = new TimelineMax({
+            delay: ad.delay,
+            onComplete: () => {
+                this.animCompleted = true;
+            }
+        });
 
-        // animation 0
+        // first animation
         // change camera pos
-        this.timeline.to( animationsCurrent.cc.p, 2, {
+        this.timeline.to( animationsCurrent.cc.p, ad.first, {
             x: animationsTargets["0"].cc.p.x,
             y: animationsTargets["0"].cc.p.y,
             z: animationsTargets["0"].cc.p.z,
             ease: ease
-        }, 'init' );
+        }, 'animation1' );
 
         // change globe rotation
-        this.timeline.to( animationsCurrent.gc.r, 2, {
+        this.timeline.to( animationsCurrent.gc.r, ad.first, {
             x: animationsTargets["0"].gc.r.x,
             y: animationsTargets["0"].gc.r.y,
             z: animationsTargets["0"].gc.r.z,
             ease: ease
-        }, 'init' );
+        }, 'animation1' );
 
 
-        // animation 1
+        // animation 2
         // change camera position
-        this.timeline.to( animationsCurrent.cc.p, 2, {
+        this.timeline.to( animationsCurrent.cc.p, ad.second, {
             x: animationsTargets["1"].cc.p.x,
             y: animationsTargets["1"].cc.p.y,
             z: animationsTargets["1"].cc.p.z,
             ease: ease
-        }, 'zoom' );
+        }, 'animation2' );
 
         // change camera rotation
-        this.timeline.to( animationsCurrent.cc.r, 2, {
+        this.timeline.to( animationsCurrent.cc.r, ad.second, {
             x: animationsTargets["1"].cc.r.x,
             y: animationsTargets["1"].cc.r.y,
             z: animationsTargets["1"].cc.r.z,
             ease: ease
-        }, 'zoom' );
+        }, 'animation2' );
 
         // change camera zoom
-        this.timeline.to( animationsCurrent.cc, 2, { zoom: animationsTargets["1"].cc.zoom, ease: ease }, 'zoom' );
+        this.timeline.to( animationsCurrent.cc, ad.second, { zoom: animationsTargets["1"].cc.zoom, ease: ease }, 'animation2' );
 
         // change globe position
-        this.timeline.to( animationsCurrent.gc.p, 2, {
+        this.timeline.to( animationsCurrent.gc.p, ad.second, {
             x: animationsTargets["1"].gc.p.x,
             y: animationsTargets["1"].gc.p.y,
             z: animationsTargets["1"].gc.p.z,
             ease: ease
-        }, 'zoom' );
+        }, 'animation2' );
 
         // change globe rotation
-        this.timeline.to( animationsCurrent.gc.r, 2, {
+        this.timeline.to( animationsCurrent.gc.r, ad.second, {
             x: animationsTargets["1"].gc.r.x,
             y: animationsTargets["1"].gc.r.y,
             z: animationsTargets["1"].gc.r.z,
             ease: ease
-        }, 'zoom' );
+        }, 'animation2' );
     }
     animate() {
-        /*this.globe.rotation.set(
-            this.mouseDownPosition.x,
-            this.mouseDownPosition.y,
-            this.mouseDownPosition.z
-        );*/
-        // this.globe.rotation.x += 0.01;
-        this.globe.rotation.y -= degToRad(0.5);
-        // animationsCurrent.cc.p.z += ( animationsTargets["0"].cc.p.z - animationsCurrent.cc.p.z ) * 0.05;
+
         this.context.camera.position.set( animationsCurrent.cc.p.x, animationsCurrent.cc.p.y, animationsCurrent.cc.p.z );
         this.context.camera.rotation.set( animationsCurrent.cc.r.x, animationsCurrent.cc.r.y, animationsCurrent.cc.r.z );
         this.context.camera.zoom = animationsCurrent.cc.zoom;
@@ -408,15 +429,25 @@ class Globe {
     }
     render() {
         this.animate();
-        if (this.test < 200) {
-            // this.test += 1;
-            this.draw();
+        this.draw();
+        if (this.animCompleted) {
+            console.log('Finished animations');
+            return;
         }
         requestAnimationFrame( this.render.bind( this ) );
     }
 }
 
 
-let globe = new Globe();
-globe.render();
+
+if (window.innerWidth > mtWidth) {
+    const globe = new Globe();
+
+    globe.render();
+
+    window.addEventListener('resize', function () {
+        globe.context.onWindowResize();
+    });
+}
+
 

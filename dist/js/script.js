@@ -15256,6 +15256,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var degToRad = THREE.Math.degToRad;
+var ad = {
+  delay: 2,
+  first: 2,
+  second: 1.5
+};
+var mtWidth = 1366;
 var cc = {
   fov: 90,
   aspectRatio: window.innerWidth / window.innerHeight,
@@ -15311,7 +15317,7 @@ var animationsTargets = {
       },
       r: {
         x: degToRad(20),
-        y: 0,
+        y: degToRad(-25),
         z: 0
       }
     }
@@ -15352,8 +15358,27 @@ var animationsCurrent = {
 }; // const textureUrl = 'assets/textures/globe_2k.png';
 
 var textureUrl = '../assets/textures/water_8k.png';
+var textureMaskUrl = '../assets/textures/tunis.jpg';
 var shaders = {
   earth: {
+    uniforms: {
+      'texture': {
+        type: 't',
+        value: null
+      },
+      'sea': {
+        type: 'vec3',
+        value: []
+      },
+      'ground': {
+        type: 'vec3',
+        value: []
+      }
+    },
+    vertexShader: ['varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );', 'vNormal = normalize( normalMatrix * normal );', 'vUv = uv;', '}'].join('\n'),
+    fragmentShader: ['uniform sampler2D texture;', 'uniform vec3 sea;', 'uniform vec3 ground;', 'varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'vec3 diffuse = texture2D( texture, vUv ).xyz;', 'if (diffuse.r < 0.5 && diffuse.g < 0.5 && diffuse.b < 0.5) {', 'float average = (diffuse.r + diffuse.g + diffuse.b) / 3.0;', 'diffuse = (1.0 - average) * ground;', '} else {', 'diffuse = diffuse * sea;', '}', 'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );', 'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );', 'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );', '}'].join('\n')
+  },
+  mask: {
     uniforms: {
       'texture': {
         type: 't',
@@ -15361,7 +15386,7 @@ var shaders = {
       }
     },
     vertexShader: ['varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );', 'vNormal = normalize( normalMatrix * normal );', 'vUv = uv;', '}'].join('\n'),
-    fragmentShader: ['uniform sampler2D texture;', 'varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'vec3 diffuse = texture2D( texture, vUv ).xyz;', 'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );', 'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 3.0 );', 'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );', '}'].join('\n')
+    fragmentShader: ['uniform sampler2D texture;', 'varying vec3 vNormal;', 'varying vec2 vUv;', 'void main() {', 'vec3 diffuse = texture2D( texture, vUv ).xyz;', 'if (diffuse.r > 0.5 && diffuse.g > 0.5 && diffuse.b > 0.5) {', 'discard;', '}', 'float intensity = 1.05 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) );', 'vec3 atmosphere = vec3( 1.0, 1.0, 1.0 ) * pow( intensity, 6.0 );', 'gl_FragColor = vec4( diffuse + atmosphere, 1.0 );', '}'].join('\n')
   },
   atmosphere: {
     uniforms: {},
@@ -15375,7 +15400,8 @@ var WebGLContext = /*#__PURE__*/function () {
     _classCallCheck(this, WebGLContext);
 
     this.initScene();
-    this.initCamera();
+    this.initCamera(); // this.initLighting();
+
     this.initRenderer();
   }
 
@@ -15390,6 +15416,13 @@ var WebGLContext = /*#__PURE__*/function () {
       this.camera = new THREE.PerspectiveCamera(cc.fov, cc.aspectRatio, cc.near, cc.far);
     }
   }, {
+    key: "initLighting",
+    value: function initLighting() {
+      var light = new THREE.DirectionalLight(0xffffff);
+      light.position.set(0, 1, 1).normalize();
+      this.scene.add(light);
+    }
+  }, {
     key: "initRenderer",
     value: function initRenderer() {
       this.renderer = new THREE.WebGLRenderer({
@@ -15398,6 +15431,14 @@ var WebGLContext = /*#__PURE__*/function () {
       });
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
+    }
+  }, {
+    key: "onWindowResize",
+    value: function onWindowResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.draw();
     }
   }, {
     key: "draw",
@@ -15422,50 +15463,6 @@ var Globe = /*#__PURE__*/function () {
   }
 
   _createClass(Globe, [{
-    key: "testing",
-    value: function testing() {
-      cc.p = {
-        x: 0,
-        y: 0,
-        z: 400
-      };
-      gc.p = {
-        x: 0,
-        y: 0,
-        z: 0
-      };
-      gc.r = {
-        x: degToRad(20),
-        y: 0,
-        z: 0
-      };
-    }
-  }, {
-    key: "testing_1",
-    value: function testing_1() {
-      cc.p = {
-        x: 0,
-        y: 0,
-        z: 500
-      };
-      cc.r = {
-        x: degToRad(-4),
-        y: 0,
-        z: 0
-      };
-      cc.zoom = 8;
-      gc.p = {
-        x: 0,
-        y: -320,
-        z: 0
-      };
-      gc.r = {
-        x: degToRad(-45),
-        y: degToRad(-100),
-        z: degToRad(0)
-      };
-    }
-  }, {
     key: "build",
     value: function build() {
       // Set position and look at
@@ -15474,40 +15471,15 @@ var Globe = /*#__PURE__*/function () {
       this.context.camera.zoom = cc.zoom;
       this.context.camera.updateProjectionMatrix();
       this.createGlobe(); // this.createAtmosphere();
-      // this.globe.position.y = 200;
-      // this.atmosphere.position.y = 200;
-    }
-  }, {
-    key: "initEvents",
-    value: function initEvents() {
-      var _this = this;
-
-      // TODO: finish it
-      this.mouseDown = false;
-      this.mouseDownPosition = {
-        x: 0,
-        y: 0,
-        z: 0
-      };
-      this.context.renderer.domElement.addEventListener('mousemove', function (event) {
-        if (!_this.mouseDown) return;
-        console.log(event.clientX);
-        console.log(event.clientY);
-      });
-      this.context.renderer.domElement.addEventListener('mousedown', function (event) {
-        _this.mouseDown = true;
-      });
-      this.context.renderer.domElement.addEventListener('mouseup', function (event) {
-        _this.mouseDown = false;
-      });
     }
   }, {
     key: "createGlobe",
     value: function createGlobe() {
-      var _this2 = this;
+      var _this = this;
 
       this.globe = new THREE.Group();
-      this.context.scene.add(this.globe);
+      this.context.scene.add(this.globe); // Load map texture
+
       var textureLoader = new THREE.TextureLoader();
       textureLoader.load(textureUrl, function (texture) {
         // Create sphere geometry
@@ -15515,7 +15487,9 @@ var Globe = /*#__PURE__*/function () {
 
         var shader = shaders.earth;
         var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-        uniforms.texture.value = texture; // Map texture to the material
+        uniforms.texture.value = texture;
+        uniforms.sea.value = new THREE.Color(0x578DD2);
+        uniforms.ground.value = new THREE.Color(0xACA898); // Map texture to the material
 
         var material = new THREE.ShaderMaterial({
           uniforms: uniforms,
@@ -15525,12 +15499,33 @@ var Globe = /*#__PURE__*/function () {
 
         var mesh = new THREE.Mesh(geometry, material);
 
-        _this2.globe.add(mesh);
+        _this.globe.add(mesh); // Load map mask texture
+
+
+        var textureMaskLoader = new THREE.TextureLoader();
+        textureMaskLoader.load(textureMaskUrl, function (texture) {
+          // Prepare shaders
+          var shader = shaders.mask;
+          var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+          uniforms.texture.value = texture; // Map texture to the material
+
+          var material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader
+          }); // Create mesh with sphere geometry
+
+          var mesh = new THREE.Mesh(geometry, material);
+          var scale = 1;
+          mesh.scale.set(scale, scale, scale);
+
+          _this.globe.add(mesh);
+        }, undefined, function (err) {
+          console.error(err);
+        });
       }, undefined, function (err) {
         console.error(err);
       });
-      this.globe.position.set(gc.p.x, gc.p.y, gc.p.z);
-      this.globe.rotation.set(gc.r.x, gc.r.y, gc.r.z);
     }
   }, {
     key: "createAtmosphere",
@@ -15553,70 +15548,69 @@ var Globe = /*#__PURE__*/function () {
   }, {
     key: "initAnimations",
     value: function initAnimations() {
-      var ease = Power2.out;
-      ease = Sine.easeIn;
-      this.timeline = new TimelineMax(); // animation 0
+      var _this2 = this;
+
+      var ease = Sine.easeIn;
+      this.animCompleted = false;
+      this.timeline = new TimelineMax({
+        delay: ad.delay,
+        onComplete: function onComplete() {
+          _this2.animCompleted = true;
+        }
+      }); // first animation
       // change camera pos
 
-      this.timeline.to(animationsCurrent.cc.p, 2, {
+      this.timeline.to(animationsCurrent.cc.p, ad.first, {
         x: animationsTargets["0"].cc.p.x,
         y: animationsTargets["0"].cc.p.y,
         z: animationsTargets["0"].cc.p.z,
         ease: ease
-      }, 'init'); // change globe rotation
+      }, 'animation1'); // change globe rotation
 
-      this.timeline.to(animationsCurrent.gc.r, 2, {
+      this.timeline.to(animationsCurrent.gc.r, ad.first, {
         x: animationsTargets["0"].gc.r.x,
         y: animationsTargets["0"].gc.r.y,
         z: animationsTargets["0"].gc.r.z,
         ease: ease
-      }, 'init'); // animation 1
+      }, 'animation1'); // animation 2
       // change camera position
 
-      this.timeline.to(animationsCurrent.cc.p, 2, {
+      this.timeline.to(animationsCurrent.cc.p, ad.second, {
         x: animationsTargets["1"].cc.p.x,
         y: animationsTargets["1"].cc.p.y,
         z: animationsTargets["1"].cc.p.z,
         ease: ease
-      }, 'zoom'); // change camera rotation
+      }, 'animation2'); // change camera rotation
 
-      this.timeline.to(animationsCurrent.cc.r, 2, {
+      this.timeline.to(animationsCurrent.cc.r, ad.second, {
         x: animationsTargets["1"].cc.r.x,
         y: animationsTargets["1"].cc.r.y,
         z: animationsTargets["1"].cc.r.z,
         ease: ease
-      }, 'zoom'); // change camera zoom
+      }, 'animation2'); // change camera zoom
 
-      this.timeline.to(animationsCurrent.cc, 2, {
+      this.timeline.to(animationsCurrent.cc, ad.second, {
         zoom: animationsTargets["1"].cc.zoom,
         ease: ease
-      }, 'zoom'); // change globe position
+      }, 'animation2'); // change globe position
 
-      this.timeline.to(animationsCurrent.gc.p, 2, {
+      this.timeline.to(animationsCurrent.gc.p, ad.second, {
         x: animationsTargets["1"].gc.p.x,
         y: animationsTargets["1"].gc.p.y,
         z: animationsTargets["1"].gc.p.z,
         ease: ease
-      }, 'zoom'); // change globe rotation
+      }, 'animation2'); // change globe rotation
 
-      this.timeline.to(animationsCurrent.gc.r, 2, {
+      this.timeline.to(animationsCurrent.gc.r, ad.second, {
         x: animationsTargets["1"].gc.r.x,
         y: animationsTargets["1"].gc.r.y,
         z: animationsTargets["1"].gc.r.z,
         ease: ease
-      }, 'zoom');
+      }, 'animation2');
     }
   }, {
     key: "animate",
     value: function animate() {
-      /*this.globe.rotation.set(
-          this.mouseDownPosition.x,
-          this.mouseDownPosition.y,
-          this.mouseDownPosition.z
-      );*/
-      // this.globe.rotation.x += 0.01;
-      this.globe.rotation.y -= degToRad(0.5); // animationsCurrent.cc.p.z += ( animationsTargets["0"].cc.p.z - animationsCurrent.cc.p.z ) * 0.05;
-
       this.context.camera.position.set(animationsCurrent.cc.p.x, animationsCurrent.cc.p.y, animationsCurrent.cc.p.z);
       this.context.camera.rotation.set(animationsCurrent.cc.r.x, animationsCurrent.cc.r.y, animationsCurrent.cc.r.z);
       this.context.camera.zoom = animationsCurrent.cc.zoom;
@@ -15633,10 +15627,11 @@ var Globe = /*#__PURE__*/function () {
     key: "render",
     value: function render() {
       this.animate();
+      this.draw();
 
-      if (this.test < 200) {
-        // this.test += 1;
-        this.draw();
+      if (this.animCompleted) {
+        console.log('Finished animations');
+        return;
       }
 
       requestAnimationFrame(this.render.bind(this));
@@ -15646,8 +15641,13 @@ var Globe = /*#__PURE__*/function () {
   return Globe;
 }();
 
-var globe = new Globe();
-globe.render();
+if (window.innerWidth > mtWidth) {
+  var globe = new Globe();
+  globe.render();
+  window.addEventListener('resize', function () {
+    globe.context.onWindowResize();
+  });
+}
 "use strict";
 
 var API_BASE_URL = 'https://api.covid19.beecoop.co';
