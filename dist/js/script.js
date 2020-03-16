@@ -15106,6 +15106,7 @@ var fadeInContentAnimation = function fadeInContentAnimation() {};
 $(function () {
   // Content fade in animation
   // ========================
+  var mtWidth = 1366;
   var mWidth = 576;
   var mainAnimDuration = 1.5;
   var animEase = Sine.easeInOut;
@@ -15123,7 +15124,7 @@ $(function () {
     });
   };
 
-  if (window.innerWidth <= mWidth) {
+  if (window.innerWidth <= mtWidth) {
     fadeInContentAnimation();
   }
 
@@ -15279,6 +15280,10 @@ $(function () {
   // ========================
 
   $('#info-btn').on('click', function () {
+    if (window.innerWidth <= mWidth) {
+      $('body').toggleClass('bg-transparent');
+    }
+
     $(this).toggleClass('opened');
   });
 });

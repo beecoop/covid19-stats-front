@@ -10,6 +10,7 @@ $(function () {
     // Content fade in animation
     // ========================
 
+    const mtWidth = 1366;
     const mWidth = 576;
 
     const mainAnimDuration = 1.5;
@@ -26,7 +27,7 @@ $(function () {
 
     };
 
-    if (window.innerWidth <= mWidth) {
+    if (window.innerWidth <= mtWidth) {
         fadeInContentAnimation();
     }
 
@@ -171,6 +172,9 @@ $(function () {
     // ========================
 
     $('#info-btn').on('click', function () {
+        if (window.innerWidth <= mWidth) {
+            $('body').toggleClass('bg-transparent');
+        }
         $(this).toggleClass('opened');
     });
 });
