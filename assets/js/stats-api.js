@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:5000';
+const API_BASE_URL = 'https://api.covid19.beecoop.co';
 const STATS_PER_COUNTRY_ENDPOINT = '/stats?country=';
 const COUNTRY = 'Tunisia';
 
