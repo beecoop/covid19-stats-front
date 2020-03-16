@@ -15101,42 +15101,36 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 })(jQuery);
 "use strict";
 
+var fadeInContentAnimation = function fadeInContentAnimation() {};
+
 $(function () {
   // Content fade in animation
   // ========================
-  var mtWidth = 1366;
-  var globeAnimDuration = 0;
   var mainAnimDuration = 1.5;
   var animEase = Sine.easeInOut;
 
-  if (window.innerWidth > mtWidth) {
-    globeAnimDuration = 4.5;
-    mainAnimDuration = 1.5;
-  } // show main content after the globe animations
+  fadeInContentAnimation = function fadeInContentAnimation() {
+    // show main content after the globe animations
+    var $main = $('main');
+    TweenMax.to($main, mainAnimDuration, {
+      opacity: 1,
+      ease: animEase
+    });
+    TweenMax.to($main, mainAnimDuration, {
+      y: 0,
+      ease: animEase
+    });
+  };
 
-
-  var $main = $('main');
   var $nav = $('nav');
   var $info_btn = $('section.info-btn');
-  TweenMax.to($main, mainAnimDuration, {
-    opacity: 1,
-    ease: animEase,
-    delay: globeAnimDuration
-  });
-  TweenMax.to($main, mainAnimDuration, {
-    y: 0,
-    ease: animEase,
-    delay: globeAnimDuration
-  });
   TweenMax.to($nav, mainAnimDuration, {
     opacity: 1,
-    ease: animEase,
-    delay: 0
+    ease: animEase
   });
   TweenMax.to($info_btn, mainAnimDuration, {
     opacity: 1,
-    ease: animEase,
-    delay: 0
+    ease: animEase
   }); // quiz logic
   // ========================
 
@@ -15492,8 +15486,7 @@ var Globe = /*#__PURE__*/function () {
 
     this.context = new WebGLContext(); // this.testing();
 
-    this.build();
-    this.initAnimations(); // this.initEvents();
+    this.build(); // this.initEvents();
 
     this.test = 0;
   }
@@ -15556,6 +15549,8 @@ var Globe = /*#__PURE__*/function () {
           mesh.scale.set(scale, scale, scale);
 
           _this.globe.add(mesh);
+
+          _this.startAnimations();
         }, undefined, function (err) {
           console.error(err);
         });
@@ -15582,8 +15577,8 @@ var Globe = /*#__PURE__*/function () {
       this.context.scene.add(this.atmosphere);
     }
   }, {
-    key: "initAnimations",
-    value: function initAnimations() {
+    key: "startAnimations",
+    value: function startAnimations() {
       var _this2 = this;
 
       var ease = Sine.easeIn;
@@ -15667,6 +15662,7 @@ var Globe = /*#__PURE__*/function () {
 
       if (this.animCompleted) {
         console.log('Finished animations');
+        fadeInContentAnimation();
         return;
       }
 

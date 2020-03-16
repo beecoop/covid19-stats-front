@@ -1,34 +1,34 @@
 
-$(function () {
 
+let fadeInContentAnimation = function() {
+
+};
+
+
+$(function () {
 
     // Content fade in animation
     // ========================
-    const mtWidth = 1366;
 
-    let globeAnimDuration = 0;
-    let mainAnimDuration = 1.5;
-    let animEase = Sine.easeInOut;
+    const mainAnimDuration = 1.5;
+    const animEase = Sine.easeInOut;
 
-    if (window.innerWidth > mtWidth) {
+    fadeInContentAnimation = function () {
 
-        globeAnimDuration = 4.5;
-        mainAnimDuration = 1.5;
+        // show main content after the globe animations
 
-    }
+        const $main = $('main');
 
-    // show main content after the globe animations
+        TweenMax.to( $main, mainAnimDuration, { opacity: 1, ease: animEase } );
+        TweenMax.to( $main, mainAnimDuration, { y: 0, ease: animEase } );
 
-    const $main = $('main');
+    };
+
     const $nav = $('nav');
     const $info_btn = $('section.info-btn');
 
-    TweenMax.to( $main, mainAnimDuration, { opacity: 1, ease: animEase, delay: globeAnimDuration } );
-    TweenMax.to( $main, mainAnimDuration, { y: 0, ease: animEase, delay: globeAnimDuration } );
-
-    TweenMax.to( $nav, mainAnimDuration, { opacity: 1, ease: animEase, delay: 0 } );
-
-    TweenMax.to( $info_btn, mainAnimDuration, { opacity: 1, ease: animEase, delay: 0 } );
+    TweenMax.to( $nav, mainAnimDuration, { opacity: 1, ease: animEase } );
+    TweenMax.to( $info_btn, mainAnimDuration, { opacity: 1, ease: animEase } );
 
     // quiz logic
     // ========================

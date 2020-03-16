@@ -240,7 +240,6 @@ class Globe {
         this.context = new WebGLContext();
         // this.testing();
         this.build();
-        this.initAnimations();
         // this.initEvents();
         this.test = 0;
     }
@@ -310,6 +309,8 @@ class Globe {
                         const scale = 1;
                         mesh.scale.set(scale, scale, scale);
                         this.globe.add(mesh);
+
+                        this.startAnimations();
                     },
                     undefined,
                     ( err ) => {
@@ -346,7 +347,7 @@ class Globe {
         this.context.scene.add( this.atmosphere );
 
     }
-    initAnimations() {
+    startAnimations() {
 
         const ease = Sine.easeIn;
         this.animCompleted = false;
@@ -432,6 +433,7 @@ class Globe {
         this.draw();
         if (this.animCompleted) {
             console.log('Finished animations');
+            fadeInContentAnimation();
             return;
         }
         requestAnimationFrame( this.render.bind( this ) );
