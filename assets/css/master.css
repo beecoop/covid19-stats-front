@@ -28,6 +28,10 @@ nav .desktop .top {
     padding-top: 22px;
 }
 
+nav .desktop .top img {
+    width: 45px;
+}
+
 nav .desktop .bottom {
     padding-bottom: 22px;
     display: flex;
