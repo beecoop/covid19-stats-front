@@ -18,15 +18,11 @@ body.blurred > *:not(.jquery-modal) {
     padding: 0;
     font-family: 'Tajawal', sans-serif;
     max-width: 800px; /* TODO: use % instead */
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .quiz.modal a.close-modal {
-    background-image: url('../imgs/modal-btn.svg');
+    background-image: url('../assets/imgs/modal-btn.svg');
     top: -32px;
     right: -32px;
     width: 70px;

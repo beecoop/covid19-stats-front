@@ -185,7 +185,7 @@
                 // think of the key as a house key with notches on it
                 getKey: function (notches) { // returns [], notches >= 1
                     var key = [];
-                    for (i = 0; i < notches; i++) key[i] = $.Deferred();
+                    for (var i = 0; i < notches; i++) key[i] = $.Deferred();
                     return key;
                 },
 
@@ -231,7 +231,7 @@
                     count = 1;
 
                 // Loop through questions object
-                for (i in questions) {
+                for (var i in questions) {
                     if (questions.hasOwnProperty(i)) {
                         var question = questions[i];
 
@@ -256,7 +256,7 @@
 
                         // Count the number of true values
                         var truths = 0;
-                        for (i in question.a) {
+                        for (var i in question.a) {
                             if (question.a.hasOwnProperty(i)) {
                                 answer = question.a[i];
                                 if (answer.correct) {
@@ -286,9 +286,9 @@
                             nextQuestionClass = nextQuestionClass + ' ' + lastQuestionClass;
                         }
 
-                        for (i in answers) {
+                        for (var i in answers) {
                             if (answers.hasOwnProperty(i)) {
-                                answer = answers[i],
+                                var answer = answers[i],
                                     optionId = inputName + '_' + i.toString();
 
                                 // If question has >1 true answers and is not a select any, use checkboxes; otherwise, radios
@@ -447,7 +447,7 @@
 
                 // Collect the true answers needed for a correct response
                 var trueAnswers = [];
-                for (i in answers) {
+                for (var i in answers) {
                     if (answers.hasOwnProperty(i)) {
                         var answer = answers[i],
                             index = parseInt(i, 10);
