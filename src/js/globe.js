@@ -43,7 +43,7 @@ const gc = {
 };
 
 // const textureUrl = 'assets/textures/globe_2k.png';
-const textureUrl = 'assets/textures/water_8k.png';
+const textureUrl = '../assets/textures/water_8k.png';
 
 const shaders = {
     earth : {
@@ -119,6 +119,7 @@ class Globe {
         this.context = new WebGLContext();
         this.build();
         // this.initEvents();
+        this.test = 0;
     }
     build() {
 
@@ -230,13 +231,13 @@ class Globe {
     }
     render() {
         // this.animate();
-        this.draw();
+        if (this.test < 200) {
+            this.test += 1;
+            this.draw();
+        }
         requestAnimationFrame( this.render.bind( this ) );
     }
 }
-
-// let cube = new Cube();
-// cube.render();
 
 
 let globe = new Globe();
