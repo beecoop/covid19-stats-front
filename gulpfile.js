@@ -44,6 +44,7 @@ gulp.task('scripts', function() {
     const scripts = [
         `${paths.dev}/js/three.min.js`,
         `${paths.dev}/js/jquery.min.js`,
+        `${paths.dev}/js/TweenMax.js`,
         `${paths.dev}/js/jquery.modal.min.js`,
         `${paths.dev}/js/slickQuiz.js`,
         `${paths.dev}/js/script.js`,
