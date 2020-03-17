@@ -187,6 +187,18 @@ section.news {
     overflow: hidden;
 }
 
+section.news:after {
+    content: 'أخبار';
+    display: block;
+    background-color: #a44d4d;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 30px 20px;
+    color: #fff;
+}
+
 section.news .content {
     //position: relative;
     //top: 50%;
