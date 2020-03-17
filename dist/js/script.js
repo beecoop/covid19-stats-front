@@ -15536,7 +15536,7 @@ $(document).ready(function () {
     data.forEach(function (news_obj, index) {
       news_texts.push(news_obj.news_entry);
     });
-    var news = news_texts.join(' &bull; ');
+    var news = news_texts.join('<img src="assets/imgs/tunisia-flag-icon-32.png" style="border-radius: 3px;vertical-align: bottom; margin: 0 15px 0 15px;">');
     $news_content.html(news);
     showNewsBar();
   }).fail(function (error) {
