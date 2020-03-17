@@ -1,8 +1,7 @@
 
 
-let fadeInContentAnimation = function() {
-
-};
+let fadeInContentAnimation = function() { };
+let showNewsBar = function() { };
 
 
 $(function () {
@@ -27,7 +26,7 @@ $(function () {
 
     };
 
-    if (window.innerWidth <= mtWidth) {
+    if (window.innerWidth <= mtWidth || true) {
         fadeInContentAnimation();
     }
 
@@ -177,4 +176,22 @@ $(function () {
         }
         $(this).toggleClass('opened');
     });
+
+    // news bar
+    // ========================
+
+    showNewsBar = function() {
+
+        const $news_bar = $('section.news');
+        const newsAnimDuration = 1.5;
+        const newsAnimEase = Sine.easeInOut;
+
+        TweenMax.to($news_bar, newsAnimDuration, {opacity: 1, y: 0, ease: newsAnimEase});
+
+        $('section.news > *').marquee({
+            direction: 'right',
+        }).css('display', 'inline-block');
+
+    }
+
 });

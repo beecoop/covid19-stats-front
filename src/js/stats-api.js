@@ -1,5 +1,6 @@
 const API_BASE_URL = 'https://api.covid19.beecoop.co';
 const STATS_PER_COUNTRY_ENDPOINT = '/stats?country=';
+const NEWS_ENDPOINT = '/news';
 const COUNTRY = 'Tunisia';
 
 $(document).ready(function () {
@@ -30,5 +31,30 @@ $(document).ready(function () {
         })
         .fail(function (error) {
             console.log(JSON.stringify(error));
+        });
+
+    $.ajax({
+        url: API_BASE_URL + NEWS_ENDPOINT,
+        method: "GET",
+        dataType: "json",
+    })
+        .done(function (data) {
+
+            let $news_content = $('section.news .content');
+            let news_texts = [];
+
+            data.forEach(function (news_obj, index) {
+                news_texts.push(news_obj.news_entry);
+            });
+
+            const news = news_texts.join(' &bull; ');
+
+            $news_content.html(news);
+
+            showNewsBar();
+
         })
+        .fail(function (error) {
+            console.log(JSON.stringify(error));
+        });
 });

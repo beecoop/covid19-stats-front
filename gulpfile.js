@@ -42,13 +42,14 @@ gulp.task('styles', function () {
 // Gulp task to minify JavaScript files
 gulp.task('scripts', function() {
     const scripts = [
-        `${paths.dev}/js/three.min.js`,
+        // `${paths.dev}/js/three.min.js`,
         `${paths.dev}/js/jquery.min.js`,
         `${paths.dev}/js/TweenMax.js`,
         `${paths.dev}/js/jquery.modal.min.js`,
+        `${paths.dev}/js/jquery.marquee.min.js`,
         `${paths.dev}/js/slickQuiz.js`,
         `${paths.dev}/js/script.js`,
-        `${paths.dev}/js/globe.js`,
+        // `${paths.dev}/js/globe.js`,
         `${paths.dev}/js/stats-api.js`
     ];
 

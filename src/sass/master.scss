@@ -7,9 +7,11 @@ html {
 
 body {
     background-color: #069BF3;
+    background-image: url("../assets/imgs/clouds.jpg");
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
+    height: 100vh;
 }
 
 body.bg-transparent {
@@ -170,13 +172,35 @@ section.info .socials {
     padding-bottom: 20px;
 }
 
+section.news {
+    opacity: 0;
+    transform: translateY(100%);
+    font-family:'Tajawal',sans-serif;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: calc(100% - 90px - 1px);
+    height: 80px;
+    background-color: rgba(49,49,49,.2);
+    border-top: 1px solid rgba(255,255,255,.5);
+    overflow: hidden;
+}
+
+section.news .content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    //display: inline-block; // cause problems with marquee jquery plugin
+    color: #fff;
+}
+
 main {
     opacity: 0;
     transform: translateY(-100%);
     font-family: 'Tajawal', sans-serif;
     color: #fff;
     text-align: center;
-    height: 70%;
+    height: calc(100% - 80px - 1px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -184,9 +208,11 @@ main {
 }
 
 main .header {
+    direction: rtl;
     font-weight: bold;
     font-size: 34px;
     margin: 0;
+    margin-bottom: 12px;
 }
 
 main small {
@@ -205,15 +231,13 @@ main .stat {
     border: 1px solid #fff;
     border-radius: 10px;
     padding: 20px 0;
-
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.16);
-
-    background-color: rgba(49, 49, 49, 0.1);
+    background-color: rgba(24, 127, 214, 0.2);
     transition: background-color 500ms;
 }
 
 main .stat:hover {
-    background-color: rgba(49, 49, 49, 0.2);
+    background-color: rgba(24, 127, 214, 0.5);
 }
 
 main .stat:not(:first-child) {
@@ -258,6 +282,10 @@ main .stat .loader {
 
 main .quizes {
     margin-top: 64px;
+}
+
+main .quizes.mobile {
+    display: none;
 }
 
 main .quizes a {
@@ -321,10 +349,6 @@ canvas {
         right: 16px;
     }
 
-    main {
-        height: 100%;
-    }
-
     main .header {
         font-size: 30px;
     }
@@ -381,7 +405,7 @@ canvas {
         margin: 0;
     }
 
-    main .quizes a:last-child {
+    main .quizes:not(.mobile) a:last-child {
         margin-bottom: 30px;
     }
 
@@ -431,8 +455,13 @@ canvas {
         display: flex;
     }
 
+    section.news {
+        right: unset;
+        width: 100%;
+    }
+
     main {
-        margin: 0 40px;
+        margin: 0;
     }
 
     main .header {
@@ -466,17 +495,17 @@ canvas {
 
     main .quizes {
         margin-top: 26px;
+        display: none;
+    }
+
+    main .quizes.mobile {
+        display: block;
     }
 
     main .quizes a {
         font-size: 14px;
         padding: 22px 48px;
     }
-
-    main .quizes a:first-child {
-        margin-bottom: 26px;
-    }
-
 
 }
 
