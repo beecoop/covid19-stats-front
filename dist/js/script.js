@@ -15492,8 +15492,9 @@ $(function () {
       ease: newsAnimEase
     });
     $('section.news > *').marquee({
+      speed: 100,
       direction: 'right'
-    }).css('display', 'inline-block');
+    });
   };
 });
 "use strict";

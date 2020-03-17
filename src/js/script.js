@@ -189,8 +189,9 @@ $(function () {
         TweenMax.to($news_bar, newsAnimDuration, {opacity: 1, y: 0, ease: newsAnimEase});
 
         $('section.news > *').marquee({
+            speed: 100,
             direction: 'right',
-        }).css('display', 'inline-block');
+        });
 
     }
 
