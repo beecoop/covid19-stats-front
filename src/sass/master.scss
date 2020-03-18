@@ -126,7 +126,11 @@ section.info .block.green {
 }
 
 section.info .block.blue {
-    border-top: 6px solid #059bF2;
+    border-top: 6px solid #059BF2;
+}
+
+section.info .block.red {
+    border-top: 6px solid #E70013;
 }
 
 section.info .block .header {
@@ -163,6 +167,15 @@ section.info .advices .body ul {
 
 section.info .advices .body ul li {
     margin-top: 28px;
+}
+
+section.info .official .body {
+    line-height: 1.5;
+}
+
+section.info .official a {
+    color: #E70013;
+    font-style: italic;
 }
 
 section.info .socials {
